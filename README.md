@@ -198,7 +198,7 @@ The output images are saved in the specified folder (default: `data/detection/ou
 </p>
 
 #### Scene, depth and surface normals
-When running detection on a model with the ROCK block, the `scene-output-path`, `--depth_output_path` and `--normals_output_path` arguments can be added to save the scene, depth and surface normals predictions of each image.
+When running detection on a model with the ROCK block, the `scene_output_path`, `--depth_output_path` and `--normals_output_path` arguments can be added to save the scene, depth and surface normals predictions of each image.
 
 #### Throughput
 The `--get_throughput` argument can be added to obtain the model throughput (in images/sec). If this argument is added, drawing and saving the output images to a folder is disabled as these operations add a very significant time overhead, and the batch size is set to 1.
