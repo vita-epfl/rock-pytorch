@@ -3,6 +3,7 @@ from typing import Union
 
 import torch
 
+
 def int_or_none(value: str) -> Union[None, int]:
     if value == 'None':
         return None
@@ -15,9 +16,9 @@ def cli() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='Different parsers for main actions', dest='command')
 
-    prep_epilog = 'Note: If no val_split_path is provided, this command creates a train/test set.' \
+    prep_epilog = 'Note: If no val_split_path is provided, this command creates a train/test set. ' \
                   'Otherwise, this command creates a train/val/test set, ' \
-                  'with the val set extracted from the test set.' \
+                  'with the val set extracted from the test set. ' \
                   'It is recommended to change the default train_save_path and test_save_path when adding a val set.'
     prep_parser = subparsers.add_parser("prep",
                                         help='preprocess the NYUv2 dataset',
