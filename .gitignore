@@ -1,0 +1,13 @@
+# Data files in all folders
+data/
+# Editors
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# MacOS
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+_pycache_/
+__pycache__/
