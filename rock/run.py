@@ -226,7 +226,7 @@ def disable_rock_for_empty_aux_tasks(args: argparse.Namespace) -> argparse.Names
     """
     args.aux_tasks = tuple(args.aux_tasks)
     if not args.aux_tasks:
-        args.no_rock_block = True
+        args.no_rock = True
 
     return args
 
