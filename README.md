@@ -63,8 +63,7 @@ Download links:
 - Dataset containing the images, depths, labels, scenes and instances: http://horatio.cs.nyu.edu/mit/silberman/nyu_depth_v2/nyu_depth_v2_labeled.mat.
 - Train / test split: http://horatio.cs.nyu.edu/mit/silberman/indoor_seg_sup/splits.mat
 - Surface normals and masks: https://cs.nyu.edu/~deigen/dnl/normals_gt.tgz.
-
-TODO: add link to train/val split once link is available
+- Train / val split: https://github.com/vita-epfl/rock-pytorch/releases/download/v0.1/val_split.txt
 
 
 #### Download the dataset from the command line:
@@ -78,6 +77,8 @@ wget http://horatio.cs.nyu.edu/mit/silberman/indoor_seg_sup/splits.mat
 
 wget https://cs.nyu.edu/~deigen/dnl/normals_gt.tgz
 tar xzf normals_gt.tgz
+
+wget https://github.com/vita-epfl/rock-pytorch/releases/download/v0.1/val_split.txt
 
 cd ..
 ```
@@ -242,8 +243,8 @@ Baseline SSD    | 18.5%             | 35.3%         | <b>2.9 hours</b>  | <b>65.
 ROCK            | <b>20.6%</b>      | <b>39.9%</b>  | 3.3 hours         | 55.8 FPS          |
 
 The weights for these models can be downloaded here:
-- Baseline SSD
-- ROCK
+- [Baseline SSD](https://github.com/vita-epfl/rock-pytorch/releases/download/v0.1/baseline_ssd_trained.pt) (480 MB)
+- [ROCK](https://github.com/vita-epfl/rock-pytorch/releases/download/v0.1/rock_trained.pt) (565 MB)
 
 
 ###### Comparison of detected images between the baseline SSD (left) and ROCK (right)
