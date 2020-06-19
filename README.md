@@ -294,7 +294,8 @@ rock/
 #### Data structure:
 Here is the default way in which files are organized in the data folder (if no optional arguments to change the path are used).  
 Using this data structure minimizes the need to use arguments for commands, although the file structure can be modified, and the paths to folder specified using optional arguments for all commands.
-```  
+
+```
 data/
 ├── train_test/
 │   ├── nyuv2_train/    # 795 images
@@ -308,6 +309,7 @@ data/
 ├── detection/
 │   ├── images/
 │   ├── output/
+│   ├── scene_output/
 │   ├── depth_output/
 │   └── normals_output/
 ├── tensorboard_images/
