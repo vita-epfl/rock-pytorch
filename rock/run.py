@@ -11,7 +11,7 @@ def int_or_none(value: str) -> Union[None, int]:
 
 
 def cli() -> argparse.Namespace:
-    """ Command line integration
+    """ Command line interface
     """
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='Different parsers for main actions', dest='command')
