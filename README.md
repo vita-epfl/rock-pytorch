@@ -1,7 +1,7 @@
 # rock-pytorch
 
 
-A [PyTorch](https://pytorch.org/) implementation of [ROCK](http://papers.neurips.cc/paper/7406-revisiting-multi-task-learning-with-rock-a-deep-residual-auxiliary-block-for-visual-detection) from the NeurIPS 2018 paper by Taylor Mordan, Nicolas Thome, Gilles Henaff, and Matthieu Cord.
+A [PyTorch](https://pytorch.org/) implementation of ["Revisiting Multi-Task Learning with ROCK: a Deep Residual Auxiliary Block for Visual Detection"](http://papers.neurips.cc/paper/7406-revisiting-multi-task-learning-with-rock-a-deep-residual-auxiliary-block-for-visual-detection) from the NeurIPS 2018 paper by Taylor Mordan, Nicolas Thome, Gilles Henaff, and Matthieu Cord.
 
 #### Abstract
 > Revisiting Multi-Task Learning with ROCK: a Deep Residual Auxiliary Block for Visual Detection
@@ -43,7 +43,7 @@ A [PyTorch](https://pytorch.org/) implementation of [ROCK](http://papers.neurips
 
 ```
 # To clone the repository using HTTPS
-git clone https://github.com/dmizr/rock-pytorch.git
+git clone https://github.com/vita-epfl/rock-pytorch.git
 cd rock-pytorch/
 ```
 
