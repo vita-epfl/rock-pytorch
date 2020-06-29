@@ -48,7 +48,7 @@ git clone https://github.com/vita-epfl/rock-pytorch.git
 cd rock-pytorch/
 ```
 
-This project has been tested with python >= 3.7. All required packages can be found in the `requirements.txt` file.
+This project has been tested with python >= 3.7 and pytorch=1.5.0. All required packages can be found in the `requirements.txt` file.
 
 <b> Note </b>: the pip and conda versions of `pycocotools` are out-of-date and incompatible with `numpy 1.18` or above. To install an up-to-date version of `pycocotools`, run:
 ```
@@ -132,7 +132,7 @@ The optional arguments can be used to:
   - specify the evaluation frequency
   - visualize the training with [TensorBoard](https://www.tensorflow.org/tensorboard/)
 
-The default values of hyperparameters arguments are the ones used to obtain the results described in the [performance](#performance) section.
+The default values of hyperparameters arguments are the ones used to obtain the first two results described in the [performance](#performance) section (Baseline SSD and ROCK trained on train set, and evaluated on test set).
 
 Here are some ways in which training can be changed using optional arguments:
 #### Model architecture

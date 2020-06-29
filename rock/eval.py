@@ -22,6 +22,7 @@ def evaluate_model(model_path: str,
                    device: torch.device = torch.device("cuda"),
                    aux: bool = True,
                    aux_tasks: Tuple[str, ...] = ('scene', 'depth', 'normals'),
+                   coco_json_save_path: str = 'data/eval/',
                    show_all_cats: bool = False,
                    verbose: bool = True) -> None:
     """ Loads a model and evaluates it
@@ -38,11 +39,16 @@ def evaluate_model(model_path: str,
     model = model.to(device)
     rock.utils.load.load_from_checkpoint(model_path, model, verbose=verbose)
 
+    gt_path = os.path.join(coco_json_save_path, 'gt_box.json')
+    dt_path = os.path.join(coco_json_save_path, 'pred_box.json')
+
     if verbose:
-        ap1, ap2 = evaluate(model, test_data, encoder, device, show_all_cats=show_all_cats)
+        ap1, ap2 = evaluate(model, test_data, encoder, device, gt_path=gt_path, dt_path=dt_path,
+                            show_all_cats=show_all_cats)
     else:
         with rock.utils.hide_print.HiddenPrints():
-            ap1, ap2 = evaluate(model, test_data, encoder, device, show_all_cats=show_all_cats)
+            ap1, ap2 = evaluate(model, test_data, encoder, device, gt_path=gt_path, dt_path=dt_path,
+                                show_all_cats=show_all_cats)
 
     print('val mAP[0.50:0.95] = {:.4f}'.format(ap1))
     print('val mAP[0.50] = {:.4f}'.format(ap2))
