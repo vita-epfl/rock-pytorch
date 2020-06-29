@@ -118,6 +118,11 @@ def cli() -> argparse.Namespace:
                                    '(i.e. models/rock). If provided, training will be resumed on that model '
                                    '(default: %(default)s)',
                               default=None)
+    train_parser.add_argument('--coco_json_save_path',
+                              help='path to which ground truth and prediction JSON files are saved '
+                                   'using the COCO data format, which are then used for evaluation '
+                                   '(more info: https://cocodataset.org/#format-data) (default: %(default)s)',
+                              default='data/eval')
     train_parser.add_argument('--save_best_on_val',
                               help='saves the model with the best mAP on val data',
                               action='store_true')
@@ -256,9 +261,9 @@ def main() -> None:
               scheduler_gamma=args.scheduler_gamma, forced_crops=args.force_crops,
               aux=not args.no_rock, aux_tasks=args.aux_tasks, use_all_priors_conf_loss=args.use_all_priors_conf_loss,
               writer_path=args.writer_path, save_path=args.save_path, checkpoint_path=args.checkpoint_path,
-              save_best_on_val=args.save_best_on_val, val_eval_freq=args.val_eval_freq,
-              train_eval_freq=args.train_eval_freq, image_to_tb_freq=args.image_to_tb_freq,
-              model_save_freq=args.model_save_freq, verbose=not args.no_verbose)
+              coco_json_save_path=args.coco_json_save_path,  save_best_on_val=args.save_best_on_val,
+              val_eval_freq=args.val_eval_freq, train_eval_freq=args.train_eval_freq,
+              image_to_tb_freq=args.image_to_tb_freq, model_save_freq=args.model_save_freq, verbose=not args.no_verbose)
 
     if args.command == 'eval':
         from rock.eval import evaluate_model
