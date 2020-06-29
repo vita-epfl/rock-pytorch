@@ -25,10 +25,10 @@ import rock.training
 def train(train_path: str,
           val_path: Optional[str] = None,
           device: torch.device = torch.device("cuda"),
-          num_iters: int = 40_000,
+          num_iters: int = 30_000,
           lr: float = 5e-5,
           weight_decay: float = 2e-3,
-          scheduler_milestones: Iterable[int] = (30_000, ),
+          scheduler_milestones: Iterable[int] = (25_000, ),
           scheduler_gamma: float = 0.1,
           forced_crops: bool = False,
           aux: bool = True,
@@ -37,6 +37,7 @@ def train(train_path: str,
           writer_path: Optional[str] = None,
           save_path: Optional[str] = None,
           checkpoint_path: Optional[str] = None,
+          coco_json_save_path: str = 'data/eval',
           save_best_on_val: bool = False,
           val_eval_freq: Union[int, None] = 10,
           train_eval_freq: Union[int, None] = 50,
@@ -67,6 +68,9 @@ def train(train_path: str,
     else:
         val_data = None
         val_loader = None
+
+    gt_path = os.path.join(coco_json_save_path, 'gt_box.json')
+    dt_path = os.path.join(coco_json_save_path, 'pred_box.json')
 
     label_map = train_data.label_map
 
@@ -149,10 +153,10 @@ def train(train_path: str,
             if verbose:
                 print()
                 print("[Val] Epoch {} eval".format(epoch))
-                ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device)
+                ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device, gt_path=gt_path, dt_path=dt_path)
             else:
                 with rock.utils.hide_print.HiddenPrints():
-                    ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device)
+                    ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device, gt_path=gt_path, dt_path=dt_path)
 
             if writer:
                 writer.add_scalar('val mAP[0.50:0.95]', ap1, epoch)
@@ -180,10 +184,12 @@ def train(train_path: str,
             if verbose:
                 print()
                 print("[Train] Epoch {} eval".format(epoch))
-                train_ap1, train_ap2 = rock.eval.evaluate(model, train_eval_data, encoder, device)
+                train_ap1, train_ap2 = rock.eval.evaluate(model, train_eval_data, encoder, device, gt_path=gt_path,
+                                                          dt_path=dt_path)
             else:
                 with rock.utils.hide_print.HiddenPrints():
-                    train_ap1, train_ap2 = rock.eval.evaluate(model, train_eval_data, encoder, device)
+                    train_ap1, train_ap2 = rock.eval.evaluate(model, train_eval_data, encoder, device, gt_path=gt_path,
+                                                              dt_path=dt_path)
 
             if writer:
                 writer.add_scalar('train mAP[0.50:0.95]', train_ap1, epoch)
@@ -230,10 +236,12 @@ def train(train_path: str,
         print("Final model eval")
 
         if verbose:
-            ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device, show_all_cats=True)
+            ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device, gt_path=gt_path, dt_path=dt_path,
+                                          show_all_cats=True)
         else:
             with rock.utils.hide_print.HiddenPrints():
-                ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device, show_all_cats=True)
+                ap1, ap2 = rock.eval.evaluate(model, val_data, encoder, device, gt_path=gt_path, dt_path=dt_path,
+                                              show_all_cats=True)
 
         print('val mAP[0.50:0.95] = {:.4f}'.format(ap1))
         print('val mAP[0.50] = {:.4f}'.format(ap2))

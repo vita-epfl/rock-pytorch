@@ -75,7 +75,7 @@ def cli() -> argparse.Namespace:
                               type=torch.device, default='cuda')
     train_parser.add_argument('--num_iters',
                               help='number of iterations (type: %(type)s) (default: %(default)s)',
-                              type=int, default=40_000)
+                              type=int, default=30_000)
     train_parser.add_argument('--lr',
                               help='learning rate (type: %(type)s) (default: %(default)s)',
                               type=float, default=5e-5)
@@ -85,7 +85,7 @@ def cli() -> argparse.Namespace:
     train_parser.add_argument('--scheduler_milestones',
                               help='iteration milestones at which the learning rate is decreased '
                                    '(type: %(type)s) (default: %(default)s)',
-                              type=int, default=[30_000, ], nargs='+')
+                              type=int, default=[25_000, ], nargs='+')
     train_parser.add_argument('--scheduler_gamma',
                               help='gamma value for the scheduler, by which the learning rate is multiplied '
                                    'at each milestone (type: %(type)s) (default: %(default)s)',
@@ -111,13 +111,18 @@ def cli() -> argparse.Namespace:
                               default=None)
     train_parser.add_argument('--save_path',
                               help='path to the folder where the model weights will be saved '
-                                   '(i.e. models/rock) (default: %(default)s)',
-                              default=None)
+                                   '(i.e. data/models/rock) (default: %(default)s)',
+                              default='data/models/default_model/')
     train_parser.add_argument('--checkpoint_path',
                               help='path to the folder where a trained model is saved '
                                    '(i.e. models/rock). If provided, training will be resumed on that model '
                                    '(default: %(default)s)',
                               default=None)
+    train_parser.add_argument('--coco_json_save_path',
+                              help='path to which ground truth and prediction JSON files are saved '
+                                   'using the COCO data format, which are then used for evaluation '
+                                   '(more info: https://cocodataset.org/#format-data) (default: %(default)s)',
+                              default='data/eval')
     train_parser.add_argument('--save_best_on_val',
                               help='saves the model with the best mAP on val data',
                               action='store_true')
@@ -159,8 +164,14 @@ def cli() -> argparse.Namespace:
     eval_parser.add_argument('--aux_tasks',
                              help='list of auxiliary tasks to train on (type: %(type)s) (default: %(default)s)',
                              type=str, default=['scene', 'depth', 'normals'], nargs='*')
+    eval_parser.add_argument('--coco_json_save_path',
+                             help='path to which ground truth and prediction JSON files are saved '
+                                  'using the COCO data format, which are then used for evaluation '
+                                  '(more info: https://cocodataset.org/#format-data) (default: %(default)s)',
+                             default='data/eval')
     eval_parser.add_argument('--show_all_cats',
-                             help='show the mAP for all categories', action='store_true')
+                             help='show the mAP for all categories',
+                             action='store_true')
     eval_parser.add_argument('--no_verbose',
                              help='disable verbose', action='store_true')
 
@@ -250,16 +261,16 @@ def main() -> None:
               scheduler_gamma=args.scheduler_gamma, forced_crops=args.force_crops,
               aux=not args.no_rock, aux_tasks=args.aux_tasks, use_all_priors_conf_loss=args.use_all_priors_conf_loss,
               writer_path=args.writer_path, save_path=args.save_path, checkpoint_path=args.checkpoint_path,
-              save_best_on_val=args.save_best_on_val, val_eval_freq=args.val_eval_freq,
-              train_eval_freq=args.train_eval_freq, image_to_tb_freq=args.image_to_tb_freq,
-              model_save_freq=args.model_save_freq, verbose=not args.no_verbose)
+              coco_json_save_path=args.coco_json_save_path,  save_best_on_val=args.save_best_on_val,
+              val_eval_freq=args.val_eval_freq, train_eval_freq=args.train_eval_freq,
+              image_to_tb_freq=args.image_to_tb_freq, model_save_freq=args.model_save_freq, verbose=not args.no_verbose)
 
     if args.command == 'eval':
         from rock.eval import evaluate_model
         args = disable_rock_for_empty_aux_tasks(args)
         evaluate_model(model_path=args.model_path, test_path=args.test_path, device=args.device,
-                       aux=not args.no_rock, aux_tasks=args.aux_tasks, show_all_cats=args.show_all_cats,
-                       verbose=not args.no_verbose)
+                       aux=not args.no_rock, aux_tasks=args.aux_tasks, coco_json_save_path=args.coco_json_save_path,
+                       show_all_cats=args.show_all_cats, verbose=not args.no_verbose)
 
     if args.command == 'create_image_folder':
         from rock.datasets.image_folder import extract_image_and_save_to_folder
